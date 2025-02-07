@@ -17,24 +17,23 @@
         hideCompletedItems();
     }
 
-   function setTreeViewDefault() {
-    console.log("Waiting for Tree View button...");
+    // ✅ Properly Define the Function and Expose it Globally
+    window.setTreeViewDefault = function() {
+        console.log("Waiting for Tree View button...");
 
-    let checkExist = setInterval(() => {
-        let treeViewButton = document.querySelector("a[href*='tree']");
-        
-        if (treeViewButton && !treeViewButton.classList.contains("active")) {
-            console.log("Activating Tree View...");
-            treeViewButton.click();
-            clearInterval(checkExist); // Stop checking once activated
-        }
-    }, 1000); // Check every 1 second
+        let checkExist = setInterval(() => {
+            let treeViewButton = document.querySelector("a[href*='tree']");
+            
+            if (treeViewButton && !treeViewButton.classList.contains("active")) {
+                console.log("Activating Tree View...");
+                treeViewButton.click();
+                clearInterval(checkExist); // Stop checking once activated
+            }
+        }, 1000); // Check every 1 second
 
-    // Stop checking after 15 seconds to prevent infinite loops
-    setTimeout(() => clearInterval(checkExist), 15000);
-}
-
-
+        // Stop checking after 15 seconds to prevent infinite loops
+        setTimeout(() => clearInterval(checkExist), 15000);
+    }; // <-- **Fixed Missing Semicolon Here**
 
     function hideCompletedItems() {
         let hideCompletedCheckbox = document.querySelector("input[type='checkbox'][name='hide_completed']");
