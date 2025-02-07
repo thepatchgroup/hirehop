@@ -17,12 +17,23 @@
         hideCompletedItems();
     }
 
-    function setTreeViewDefault() {
+   function setTreeViewDefault() {
+    console.log("Waiting for Tree View button...");
+
+    let checkExist = setInterval(() => {
         let treeViewButton = document.querySelector("a[href*='tree']");
+        
         if (treeViewButton && !treeViewButton.classList.contains("active")) {
-            treeViewButton.click(); // Activate Tree View if not already selected
+            console.log("Activating Tree View...");
+            treeViewButton.click();
+            clearInterval(checkExist); // Stop checking once activated
         }
-    }
+    }, 500); // Check every 500ms
+
+    // Stop checking after 10 seconds to prevent infinite loops
+    setTimeout(() => clearInterval(checkExist), 10000);
+}
+
 
     function hideCompletedItems() {
         let hideCompletedCheckbox = document.querySelector("input[type='checkbox'][name='hide_completed']");
