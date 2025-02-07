@@ -1,14 +1,20 @@
 (function() {
+    console.log("Plugin is working! 🚀");
+
     function initPlugin() {
+        console.log("Plugin Initialized!");
+
         // Ensure we are in 'Check Job Out' mode
         let checkJobOutText = document.querySelector("a[href*='check_job_out']");
-        if (!checkJobOutText) return; // Exit if not in 'Check Job Out' mode
+        console.log("Check Job Out mode found:", checkJobOutText);
+        if (!checkJobOutText) return;
 
         // Ensure the Tree View is selected
         setTreeViewDefault();
 
         // Monitor the 'Hide completed items' checkbox
         let hideCompletedCheckbox = document.querySelector("input[type='checkbox'][name='hide_completed']");
+        console.log("Hide completed checkbox found:", hideCompletedCheckbox);
         if (hideCompletedCheckbox) {
             hideCompletedCheckbox.addEventListener("change", hideCompletedItems);
         }
@@ -23,7 +29,8 @@
 
         let checkExist = setInterval(() => {
             let treeViewButton = document.querySelector("a[href*='tree']");
-            
+            console.log("Tree View button found:", treeViewButton);
+
             if (treeViewButton && !treeViewButton.classList.contains("active")) {
                 console.log("Activating Tree View...");
                 treeViewButton.click();
@@ -33,18 +40,22 @@
 
         // Stop checking after 15 seconds to prevent infinite loops
         setTimeout(() => clearInterval(checkExist), 15000);
-    }; // <-- **Fixed Missing Semicolon Here**
+    };
 
     function hideCompletedItems() {
+        console.log("Checking for completed items...");
+
         let hideCompletedCheckbox = document.querySelector("input[type='checkbox'][name='hide_completed']");
+        console.log("Hide completed checkbox checked:", hideCompletedCheckbox && hideCompletedCheckbox.checked);
         if (!hideCompletedCheckbox || !hideCompletedCheckbox.checked) return;
 
-        let items = document.querySelectorAll(".hirehop-item-row"); // Adjust the selector if needed
+        let items = document.querySelectorAll(".hirehop-item-row");
+        console.log("Items to hide:", items.length);
+
         items.forEach(item => {
             let checkedOut = parseInt(item.querySelector(".checked").textContent || "0");
             let required = parseInt(item.querySelector(".qty").textContent || "0");
 
-            // Find auto pull items (sub-items)
             let subItems = item.querySelectorAll(".autopull");
             let allSubItemsCheckedOut = [...subItems].every(sub => {
                 let subCheckedOut = parseInt(sub.querySelector(".checked").textContent || "0");
@@ -52,8 +63,8 @@
                 return subCheckedOut >= subRequired;
             });
 
-            // Hide the item if both the main item and its autopull items are fully checked out
             if (checkedOut >= required && allSubItemsCheckedOut) {
+                console.log("Hiding completed item:", item);
                 item.style.display = "none";
             }
         });
