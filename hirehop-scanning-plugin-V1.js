@@ -28,11 +28,12 @@
             treeViewButton.click();
             clearInterval(checkExist); // Stop checking once activated
         }
-    }, 500); // Check every 500ms
+    }, 1000); // Check every 1 second
 
-    // Stop checking after 10 seconds to prevent infinite loops
-    setTimeout(() => clearInterval(checkExist), 10000);
+    // Stop checking after 15 seconds to prevent infinite loops
+    setTimeout(() => clearInterval(checkExist), 15000);
 }
+
 
 
     function hideCompletedItems() {
